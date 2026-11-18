@@ -16,7 +16,7 @@ class User(Base):
     role = Column(String(20), nullable=False, default="student")
     full_name = Column(String(160), nullable=False)
     attendance = relationship("Attendance", back_populates="student", foreign_keys="Attendance.student_id")
-    fees = relationship("Fee", back_populates="student")
+    fees = relationship("Fee", back_populates="student", foreign_keys="Fee.student_id")
 class Attendance(Base):
     __tablename__ = "attendance"
     __table_args__ = (UniqueConstraint("student_id", "date", name="uq_student_attendance_date"),)
