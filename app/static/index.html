@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>School Management System</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">
+    <div class="logo">S</div>
+    <div><h1>School Portal</h1><small>Learning • Attendance • Fees</small></div>
+  </div>
+  <div id="user-info" class="user-info hidden">
+    <span id="welcome-msg"></span>
+    <button class="btn btn-light" onclick="logout()">Logout</button>
+  </div>
+</div>
+<main>
+<section id="auth-section" class="auth-layout">
+  <div class="intro">
+    <span class="eyebrow">WELCOME TO YOUR SCHOOL</span>
+    <h2>One place for your school community.</h2>
+    <p>Manage learning, attendance and fee records through a simple, secure portal.</p>
+    <div class="features">
+      <span>✓ Admin dashboard</span>
+      <span>✓ Teacher attendance</span>
+      <span>✓ Student records</span>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>Sign in</h2>
+    <p class="muted">Use the username and password provided by your school administrator.</p>
+    <form id="login-form" onsubmit="handleLogin(event)">
+      <label>Username<input id="username" autocomplete="username" required></label>
+      <label>Password<input id="password" type="password" autocomplete="current-password" required></label>
+      <button class="btn btn-primary full" type="submit">Login</button>
+    </form>
+    <p id="auth-message" class="message"></p>
+    <p class="muted tiny">Need an account? Contact your school administrator.</p>
+  </div>
+</section>
+
+<section id="dashboard-section" class="hidden">
+  <div class="welcome">
+    <div>
+      <span class="eyebrow">YOUR WORKSPACE</span>
+      <h2 id="dashboard-title">Dashboard</h2>
+      <p id="dashboard-subtitle" class="muted">Welcome to your school portal.</p>
+    </div>
+    <div class="date-chip" id="today-label"></div>
+  </div>
+  <div id="stats" class="stats"></div>
+
+  <section id="admin-users" class="panel hidden">
+    <h3>Account management</h3>
+    <p class="muted">Only administrators can create accounts.</p>
+    <form id="create-user-form" class="form-grid" onsubmit="createUser(event)">
+      <label>Full name<input id="new-full-name" required maxlength="160"></label>
+      <label>Username<input id="new-username" required minlength="3" maxlength="80"></label>
+      <label>Temporary password<input id="new-password" type="password" required minlength="8"></label>
+      <label>Account role<select id="new-role"><option value="student">Student</option><option value="teacher">Teacher</option><option value="admin">Admin</option></select></label>
+      <button class="btn btn-primary" type="submit">Create account</button>
+    </form>
+    <p id="create-user-message" class="message"></p>
+    <h4>School users</h4>
+    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Username</th><th>Role</th></tr></thead><tbody id="users-list"></tbody></table></div>
+  </section>
+
+  <section id="teacher-tools" class="panel hidden">
+    <h3>Mark student attendance</h3>
+    <form id="attendance-form" class="form-grid" onsubmit="handleAttendance(event)">
+      <label>Student<select id="att-student-id" required></select></label>
+      <label>Date<input type="date" id="att-date" required></label>
+      <label>Status<select id="att-status"><option>Present</option><option>Absent</option><option>Late</option></select></label>
+      <button class="btn btn-primary" type="submit">Save attendance</button>
+    </form>
+    <p id="attendance-message" class="message"></p>
+  </section>
+
+  <section id="admin-tools" class="panel hidden">
+    <h3>Create fee record</h3>
+    <form id="fee-form" class="form-grid" onsubmit="handleFee(event)">
+      <label>Student<select id="fee-student-id" required></select></label>
+      <label>Amount<input type="number" id="fee-amount" min="0.01" step="0.01" required></label>
+      <label>Due date<input type="date" id="fee-date" required></label>
+      <button class="btn btn-primary" type="submit">Create fee</button>
+    </form>
+    <p id="fee-message" class="message"></p>
+  </section>
+
+  <div class="two-col">
+    <section class="panel">
+      <h3>Attendance records</h3>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Student ID</th><th>Status</th></tr></thead><tbody id="attendance-list"></tbody></table></div>
+    </section>
+    <section class="panel">
+      <h3>Fee records</h3>
+      <div class="table-wrap"><table><thead><tr><th>Due date</th><th>Student ID</th><th>Amount</th><th>Status / Action</th></tr></thead><tbody id="fee-list"></tbody></table></div>
+    </section>
+  </div>
+</section>
+</main>
+<footer>School Management System · Secure school portal</footer>
+<script src="/static/app.js"></script>
+</body>
+</html>
