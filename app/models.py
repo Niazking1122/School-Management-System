@@ -1,14 +1,17 @@
 
-
-from sqlalchemy.orm import relationship
-from app.database import Base
-
 import enum
+
 from sqlalchemy import (
-from sqlalchemy.orm import relationship
-    Column, Integer, String, Float, ForeignKey, Date,
+    Column,
+    Integer,
+    String,
+    Float,
+    ForeignKey,
+    Date,
     UniqueConstraint
 )
+from sqlalchemy.orm import relationship
+
 from app.database import Base
 
 
@@ -32,6 +35,7 @@ class User(Base):
         back_populates="student",
         foreign_keys="Attendance.student_id"
     )
+
     fees = relationship(
         "Fee",
         back_populates="student",
@@ -42,7 +46,11 @@ class User(Base):
 class Attendance(Base):
     __tablename__ = "attendance"
     __table_args__ = (
-        UniqueConstraint("student_id", "date", name="uq_student_attendance_date"),
+        UniqueConstraint(
+            "student_id",
+            "date",
+            name="uq_student_attendance_date"
+        ),
     )
 
     id = Column(Integer, primary_key=True, index=True)
@@ -92,7 +100,11 @@ class Subject(Base):
 class Enrollment(Base):
     __tablename__ = "enrollments"
     __table_args__ = (
-        UniqueConstraint("student_id", "class_id", name="uq_student_class"),
+        UniqueConstraint(
+            "student_id",
+            "class_id",
+            name="uq_student_class"
+        ),
     )
 
     id = Column(Integer, primary_key=True, index=True)
@@ -103,7 +115,11 @@ class Enrollment(Base):
 class ClassSubject(Base):
     __tablename__ = "class_subjects"
     __table_args__ = (
-        UniqueConstraint("class_id", "subject_id", name="uq_class_subject"),
+        UniqueConstraint(
+            "class_id",
+            "subject_id",
+            name="uq_class_subject"
+        ),
     )
 
     id = Column(Integer, primary_key=True, index=True)
@@ -125,7 +141,9 @@ class Mark(Base):
     __tablename__ = "marks"
     __table_args__ = (
         UniqueConstraint(
-            "student_id", "subject_id", "exam_id",
+            "student_id",
+            "subject_id",
+            "exam_id",
             name="uq_student_subject_exam"
         ),
     )
