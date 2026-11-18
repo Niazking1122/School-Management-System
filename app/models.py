@@ -1,6 +1,14 @@
 
 import enum
 from sqlalchemy import (
+    Column, Integer, String, Float, ForeignKey, Date,
+    UniqueConstraint
+)
+from sqlalchemy.orm import relationship
+from app.database import Base
+
+import enum
+from sqlalchemy import (
 from sqlalchemy.orm import relationship
     Column, Integer, String, Float, ForeignKey, Date,
     UniqueConstraint
