@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,23 +11,25 @@
 <div class="topbar">
   <div class="brand">
     <div class="logo">S</div>
-    <div><h1>School Portal</h1><small>Learning • Attendance • Fees</small></div>
+    <div><h1>School Portal</h1><small>Learning • Attendance • Fees • Exams</small></div>
   </div>
   <div id="user-info" class="user-info hidden">
     <span id="welcome-msg"></span>
     <button class="btn btn-light" onclick="logout()">Logout</button>
   </div>
 </div>
+
 <main>
 <section id="auth-section" class="auth-layout">
   <div class="intro">
     <span class="eyebrow">WELCOME TO YOUR SCHOOL</span>
     <h2>One place for your school community.</h2>
-    <p>Manage learning, attendance and fee records through a simple, secure portal.</p>
+    <p>Manage learning, attendance, fees, classes and exam results.</p>
     <div class="features">
       <span>✓ Admin dashboard</span>
       <span>✓ Teacher attendance</span>
       <span>✓ Student records</span>
+      <span>✓ Exams and results</span>
     </div>
   </div>
   <div class="panel">
@@ -51,6 +54,7 @@
     </div>
     <div class="date-chip" id="today-label"></div>
   </div>
+
   <div id="stats" class="stats"></div>
 
   <section id="admin-users" class="panel hidden">
@@ -68,6 +72,35 @@
     <div class="table-wrap"><table><thead><tr><th>Name</th><th>Username</th><th>Role</th></tr></thead><tbody id="users-list"></tbody></table></div>
   </section>
 
+  <section id="academics-admin" class="panel hidden">
+    <h3>Classes and subjects</h3>
+    <div class="form-grid">
+      <form onsubmit="createClass(event)">
+        <label>New class name<input id="class-name" placeholder="e.g. Grade 1" required></label>
+        <button class="btn btn-primary" type="submit">Add class</button>
+      </form>
+      <form onsubmit="createSubject(event)">
+        <label>New subject name<input id="subject-name" placeholder="e.g. Mathematics" required></label>
+        <button class="btn btn-primary" type="submit">Add subject</button>
+      </form>
+      <form onsubmit="enrollStudent(event)">
+        <label>Student<select id="enroll-student" required></select></label>
+        <label>Class<select id="enroll-class" required></select></label>
+        <button class="btn btn-primary" type="submit">Assign student to class</button>
+      </form>
+      <form onsubmit="assignSubject(event)">
+        <label>Class<select id="assign-class" required></select></label>
+        <label>Subject<select id="assign-subject" required></select></label>
+        <button class="btn btn-primary" type="submit">Assign subject</button>
+      </form>
+    </div>
+    <p id="academic-message" class="message"></p>
+    <h4>Available classes</h4>
+    <div id="class-list"></div>
+    <h4>Available subjects</h4>
+    <div id="subject-list"></div>
+  </section>
+
   <section id="teacher-tools" class="panel hidden">
     <h3>Mark student attendance</h3>
     <form id="attendance-form" class="form-grid" onsubmit="handleAttendance(event)">
@@ -77,6 +110,27 @@
       <button class="btn btn-primary" type="submit">Save attendance</button>
     </form>
     <p id="attendance-message" class="message"></p>
+  </section>
+
+  <section id="exam-tools" class="panel hidden">
+    <h3>Exams and marks</h3>
+    <form id="exam-form" class="form-grid" onsubmit="createExam(event)">
+      <label>Exam title<input id="exam-title" placeholder="Mid Term Exam" required></label>
+      <label>Class<select id="exam-class" required></select></label>
+      <label>Exam date<input id="exam-date" type="date" required></label>
+      <button class="btn btn-primary" type="submit">Create exam</button>
+    </form>
+    <p id="exam-message" class="message"></p>
+
+    <form id="mark-form" class="form-grid" onsubmit="saveMark(event)">
+      <label>Student<select id="mark-student" required></select></label>
+      <label>Exam<select id="mark-exam" required></select></label>
+      <label>Subject<select id="mark-subject" required></select></label>
+      <label>Obtained marks<input id="obtained-marks" type="number" min="0" step="0.01" required></label>
+      <label>Total marks<input id="total-marks" type="number" min="0.01" step="0.01" required></label>
+      <button class="btn btn-primary" type="submit">Save result</button>
+    </form>
+    <p id="mark-message" class="message"></p>
   </section>
 
   <section id="admin-tools" class="panel hidden">
@@ -100,6 +154,11 @@
       <div class="table-wrap"><table><thead><tr><th>Due date</th><th>Student ID</th><th>Amount</th><th>Status / Action</th></tr></thead><tbody id="fee-list"></tbody></table></div>
     </section>
   </div>
+
+  <section class="panel">
+    <h3>Exam results</h3>
+    <div class="table-wrap"><table><thead><tr><th>Exam ID</th><th>Subject ID</th><th>Obtained</th><th>Total</th><th>Percentage</th></tr></thead><tbody id="marks-list"></tbody></table></div>
+  </section>
 </section>
 </main>
 <footer>School Management System · Secure school portal</footer>
